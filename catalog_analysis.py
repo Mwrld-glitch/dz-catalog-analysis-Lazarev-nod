@@ -49,10 +49,6 @@ def duration_in_hours(minutes):
     return f'{hours}ч {mins}м'
 
 
-print(average_rating(movies))
-print(catalog_age_stats(movies))
-print(duration_in_hours(155))
-
 # ЭТАП 2
 def rating_tier(rating):
     if rating >= 9:
@@ -70,6 +66,7 @@ def decade_label(year):
             return "недавние"
         case _:
             return "старые"
+
 
 # ЭТАП 3
 for movie in movies:
@@ -96,3 +93,25 @@ def count_long_movies(movies, threshold=120):
         if movie['duration_min'] > threshold:
             count += 1
     return count
+
+
+# ЭТАП 4
+def normalize_title(title):
+    words = title.split()
+    result = []
+    for word in words:
+        result.append(word[0].upper() + word[1:])
+    return " ".join(result)
+
+
+def make_slug(title):
+    return title.lower().replace(" ", "-") 
+
+
+def format_report_line(movie):
+    return (
+    f'"{movie["title"]}" ({movie["year"]}) — '
+    f'{movie["rating"]}/10, '
+    f'{duration_in_hours(movie["duration_min"])}, '
+    f'жанры: {", ".join(sorted(movie["genres"]))}'
+)
