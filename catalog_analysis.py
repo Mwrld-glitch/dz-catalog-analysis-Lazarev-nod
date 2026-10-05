@@ -110,10 +110,10 @@ def make_slug(title):
 
 def format_report_line(movie):
     return (
-    f'"{movie["title"]}" ({movie["year"]}) — '
-    f'{movie["rating"]}/10, '
-    f'{duration_in_hours(movie["duration_min"])}, '
-    f'жанры: {", ".join(sorted(movie["genres"]))}'
+        f'"{movie["title"]}" ({movie["year"]}) — '
+        f'{movie["rating"]}/10, '
+        f'{duration_in_hours(movie["duration_min"])}, '
+        f'жанры: {", ".join(sorted(movie["genres"]))}'
 )
 
 
@@ -136,3 +136,25 @@ def top_n_by_rating(movies, n=3):
     for movie in top_movies[:n]:
         top.append((movie['title'], movie['rating']))
     return top
+
+
+# ЭТАП 6
+def count_by_genre(movies):
+    counts = {}
+    for movie in movies:
+        for genre in movie["genres"]:
+            counts[genre] = counts.get(genre, 0) + 1
+    return counts
+
+def actor_filmography(movies):
+    filmography = {}
+    for movie in movies:
+        for actor in movie["actors"]:
+            filmography.setdefault(actor, []).append(movie["title"])
+    return filmography
+
+def above_average(movies):
+    avg = average_rating(movies)
+    return {m["title"]: m["rating"] for m in movies if m["rating"] > avg}
+
+
